@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17.3.9复习", "17.3.9复习\17.3.9复习.vcxproj", "{E82C506F-1465-4705-B8F0-9E403EDEF070}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E82C506F-1465-4705-B8F0-9E403EDEF070}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E82C506F-1465-4705-B8F0-9E403EDEF070}.Debug|Win32.Build.0 = Debug|Win32
+		{E82C506F-1465-4705-B8F0-9E403EDEF070}.Release|Win32.ActiveCfg = Release|Win32
+		{E82C506F-1465-4705-B8F0-9E403EDEF070}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
