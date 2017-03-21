@@ -98,7 +98,7 @@ int  main(int argc, char* argv[])
 	struct epoll_event _ev;
 	_ev.events = EPOLLIN;
 	_ev.data.ptr = alloc_epbuf(listen_sock);
-	_ev.data.fd = listen_sock;
+//	_ev.data.fd = listen_sock;
 	
 	epoll_ctl(epfd, EPOLL_CTL_ADD, listen_sock, &_ev);
 
@@ -122,7 +122,7 @@ int  main(int argc, char* argv[])
 					int i = 0;
 					for(; i<nums; i++){
 						sleep(1);
-						int fd = (epbuf_p)(_evs[i].data.ptr)->fd;
+						int fd = ((epbuf_p)(_evs[i].data.ptr))->fd;
 						printf("after fd: %d\n",fd);
 						if(fd == listen_sock && (_evs[i].events & EPOLLIN)){
 							struct sockaddr_in peer;
@@ -136,7 +136,7 @@ int  main(int argc, char* argv[])
 							else if(new_sock > 0){
 								printf("get a new client# port %d\n",ntohs(peer.sin_port));
 								_ev.events = EPOLLIN;
-								_ev.data.fd = new_sock;
+								//_ev.data.fd = new_sock;
 								_ev.data.ptr = alloc_epbuf(new_sock);
 								epoll_ctl(epfd, EPOLL_CTL_ADD, new_sock, &_ev);
 							}
@@ -164,16 +164,18 @@ int  main(int argc, char* argv[])
 								perror("read");
 								continue;
 							}
+	
 						}//else if   read file descriptor
-					//	else if(fd != listen_sock && (_evs[i].events & EPOLLOUT))
-					//	{
-					//		const char* msg = "HTTP/1.0 200 OK \r\n\r\n<html><h1>HELLO WORLD!</h1></html>\n";
-					//		write(fd, msg, strlen(msg));
-					//		delete_epbuf(_evs[i].data.ptr);
-					//		_evs[i].data.ptr = NULL;
-					//		epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL);
-					//		close(fd);
-					//	}//else if   write file descriptor
+						else if(fd != listen_sock && (_evs[i].events & EPOLLOUT))
+						{
+							printf("write:\n");
+							const char* msg = "HTTP/1.0 200 OK \r\n\r\n<html><h1>HELLO WORLD!</h1></html>\n";
+							write(fd, msg, strlen(msg));
+							delete_epbuf(_evs[i].data.ptr);
+							_evs[i].data.ptr = NULL;
+							epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL);
+							close(fd);
+						}//else if   write file descriptor
 					}//for
 				}
 				break;
