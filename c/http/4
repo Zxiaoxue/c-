@@ -1,0 +1,31 @@
+/*************************************************************************
+	> File Name: httpd.h
+	> Author: ZX
+	> Mail: 18829897183@163.com 
+	> Created Time: Sat 01 Apr 2017 11:53:56 PM PDT
+ ************************************************************************/
+#ifdef _HTTPD_C_
+#define _HTTPD_C_
+
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<arpa/inet.h>
+#include<netinet/in.h>
+#include<pthread.h>
+#include<string.h>
+#include<assert.h>
+#include<stdlib.h>
+enum OP
+{
+	NORMAL,
+	WARING,
+	FATAL,
+};
+
+#define SIZE 4096
+
+int startup(const char* _ip, int _port);
+void printf_log(const char* msg, OP level);
+int handle_pthread(void *arg);
+int get_line(int sock, char* buf, size_t len)
+#endif//_HTTPD_C_
