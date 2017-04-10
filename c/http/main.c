@@ -18,7 +18,7 @@ void* accept_request(void *arg)
 	//printf("accept_request!\n");
 	int sock = (int)arg;
 	pthread_detach(pthread_self());
-	return (void*)handle_pthread(sock);
+	return (void*)hander_pthread(sock);
 }
 
 int main(int argc, const char* argv[])
@@ -48,7 +48,7 @@ int main(int argc, const char* argv[])
 		ret = pthread_create(&tid, NULL, accept_request, (void*)sock);
 		if(ret < 0)
 		{
-			printf_log("pthread_creaite is failed!",WARING);
+			printf_log("pthread_create is failed!",WARING);
 			close(sock);
     	}
 

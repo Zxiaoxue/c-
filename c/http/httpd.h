@@ -7,6 +7,7 @@
 #include<sys/socket.h>
 #include<sys/types.h>
 #include<sys/stat.h>
+#include<unistd.h>
 #include<fcntl.h>
 #include<arpa/inet.h>
 #include<netinet/in.h>
@@ -28,5 +29,9 @@ void usage(const char* proc);
 int startup(const char* _ip, int _port);
 void* accept_request(void *arg);
 void printf_log(const char* msg, int i);
-int handle_pthread(int sock);
+int hander_pthread(int sock);
 int get_line(int sock, char* buf, size_t len);
+
+void show_404(int sock);
+static echo_errno(int sock, int errno);
+int excu_cgi(int sock,const char*  method, const char* path, const char* query_string);
