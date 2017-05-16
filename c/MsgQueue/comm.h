@@ -22,14 +22,14 @@
 struct msgbuf
 {               
 	long mtype;/* message type, must be > 0 */
-	char mtext[1];    /* message data */
+	char mtext[1024];    /* message data */
 };
 
 int commMsgQueue(int flag);
 int creatMsgQueue();
 int getMsgQueue();
 int destoryQueue(int msgid);
-int sendMsg(int msgid, int type, char* msg);
+int sendMsg(int msgid, int type, const char* msg);
 int recvMsg(int msgid, int type, char out[]);
 
 #endif //_COMM_H_

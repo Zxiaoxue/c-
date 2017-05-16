@@ -18,18 +18,19 @@ int main()
 	char buf[1024];
 	while(1)
 	{
-		if(recvMsg(msgid, SERVER_TYPE, buf) < 0)
-		{
-			break;
-		}
-		printf("recv from server:%s\n", buf);
-		printf("Please Enter:\n");
-		int s = read(0, buf, sizeof(buf));
+		buf[0] = 0;
+		printf("Please Enter#:\n");
+		fflush(stdout);
+		ssize_t s = read(0, buf, sizeof(buf));
 		if(s > 0)
 		{
-			buf[s] = '\0';
-			sendMsg(msgid, CLIENT_TYPE, buf);
+			buf[s-1] = '\0';
+			sendMsg(msgid, SERVER_TYPE, buf);
+			printf("send done,wait recv...\n");
 		}
+		recvMsg(msgid, SERVER_TYPE, buf);
+		printf("recv from server# %s\n", buf);
 	}
+	
 	return 0;
 }

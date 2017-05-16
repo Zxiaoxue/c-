@@ -19,7 +19,7 @@ int commMsgQueue(int flag)
 	if(msgid < 0)
 	{
 		perror("msgget");
-		return -1;
+		return -2;
 	}
 
 	return msgid;
@@ -37,49 +37,40 @@ int getMsgQueue()
 
 int destoryQueue(int msgid)
 {
-	int ret = msgctl(msgid, IPC_RMID, 0);
-	if(ret < 0)
+	if(msgctl(msgid, IPC_RMID, NULL) < 0)
 	{
 		perror("msgctl");
 		return -1;
 	}
-	return ret;
+	return 0;
 }
 
-int sendMsg(int msgid, int type, char* msg)
+int sendMsg(int msgid, int type,const char* msg)
 {
 	struct msgbuf buf;
 	buf.mtype = type;
 	strcpy(buf.mtext, msg);
+
 	int s = msgsnd(msgid, &buf, sizeof(buf.mtext), 0);
 	if(s < 0)
 	{
 		perror("msgsnd");
+		return -1;
 	}
-	return s;
+	return 0;
 }
 
 int recvMsg(int msgid, int type, char out[])
 {
 	struct msgbuf buf;
-	int s = msgrcv(msgid, &buf, sizeof(buf.mtext), type, 0);
-	if(s > 0)
+	printf("begin recvMsg!\n");
+	if(msgrcv(msgid, (void*)&buf, sizeof(buf.mtext), type, 0) < 0)
 	{
-		buf.mtext[s] = 0;
-		strncpy(out, buf.mtext, s);
-		return 0;
+		perror("msgrcv");
+		return -1;
 	}
-	perror("msgrecv");
-	return -1;
+	strcpy(out, buf.mtext);
+	printf("out: %s\n", buf.mtext);
+	return 0;
 }
-
-
-
-
-
-
-
-
-
-
 

@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "comm.h"
+
 int main()
 {
 	int msgid  = creatMsgQueue();
@@ -15,24 +16,25 @@ int main()
 	{
 		return 1;
 	}
+	char buf[1024];
 	while(1)
 	{
+		buf[0] = 0;
+		recvMsg(msgid, SERVER_TYPE, buf);
+		printf("recv from client#:%s\n", buf);
+
 		printf("Please Enter:\n");
-		char buf[1024];
+		fflush(stdout);
 		int s = read(0, buf, sizeof(buf)-1);
 		if(s > 0)
 		{
-			buf[s] = 0;
-			sendMsg(msgid, CLIENT_TYPE, buf);
-		{
-			break;
-		}
-		if(recvMsg(msgid, SERVER_TYPE, buf) < 0)
-		{
-			break;
-		}
-		printf("recv from client:%s\n", buf);
-	
+			buf[s-1] = 0;
+			printf("read from stdout buf:%s\n", buf);
+			if(sendMsg(msgid, CLIENT_TYPE, buf) < 0)
+			{
+				return -1;
+			}
+			printf("send done,wait recv...\n");
 		}
 	}
 	//sleep(6);
